@@ -1,3 +1,5 @@
+import pytest
+
 from record_cleaner import clean_record
 
 
@@ -23,3 +25,11 @@ def test_trims_whitespace_from_every_text_field():
     assert cleaned["id"] == "42"
     assert cleaned["name"] == "Asha"
     assert cleaned["city"] == "Pune"
+
+
+def test_rejects_a_record_with_no_id_key():
+    raw = a_record()
+    del raw["id"]
+
+    with pytest.raises(ValueError, match="id"):
+        clean_record(raw)
