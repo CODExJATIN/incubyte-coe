@@ -33,3 +33,9 @@ def test_rejects_a_record_with_no_id_key():
 
     with pytest.raises(ValueError, match="id"):
         clean_record(raw)
+
+
+@pytest.mark.parametrize("bad_id", [""])
+def test_rejects_a_blank_id(bad_id):
+    with pytest.raises(ValueError, match="id"):
+        clean_record(a_record(id=bad_id))
