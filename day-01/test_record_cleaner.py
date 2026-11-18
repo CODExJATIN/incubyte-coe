@@ -44,9 +44,15 @@ def test_rejects_a_blank_id(bad_id):
 @pytest.mark.parametrize(
     "raw_date, expected",
     [
+        ("2025-01-12", "2025-01-12"),
         ("12/01/2025", "2025-01-12"),
         ("12 Jan 2025", "2025-01-12"),
     ],
 )
 def test_normalises_signup_date_to_iso(raw_date, expected):
     assert clean_record(a_record(signup_date=raw_date))["signup_date"] == expected
+
+
+def test_rejects_an_unparseable_date():
+    with pytest.raises(ValueError, match="signup_date"):
+        clean_record(a_record(signup_date="next Tuesday"))
