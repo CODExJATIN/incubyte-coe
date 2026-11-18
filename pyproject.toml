@@ -1,7 +1,7 @@
 [project]
-name = "data-craft"
+name = "incubyte-coe"
 version = "0.1.0"
-description = "Add your description here"
+description = "Incubyte CoE daily Python + SQL practice"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
