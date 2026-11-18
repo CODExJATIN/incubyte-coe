@@ -47,6 +47,7 @@ def test_rejects_a_blank_id(bad_id):
         ("2025-01-12", "2025-01-12"),
         ("12/01/2025", "2025-01-12"),
         ("12 Jan 2025", "2025-01-12"),
+        ("  12/01/2025 ", "2025-01-12"),
     ],
 )
 def test_normalises_signup_date_to_iso(raw_date, expected):
