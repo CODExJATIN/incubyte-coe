@@ -1,21 +1,24 @@
 from datetime import datetime
 
+DATE_FORMATS = ("%Y-%m-%d", "%d/%m/%Y", "%d %b %Y")
+
 
 def clean_record(raw: dict) -> dict:
-    cleaned = {
-        key: value.strip() if isinstance(value, str) else value
-        for key, value in raw.items()
-    }
+    cleaned = {key: _strip(value) for key, value in raw.items()}
     if not cleaned.get("id"):
         raise ValueError("id is required")
-    for date_format in ("%Y-%m-%d", "%d/%m/%Y", "%d %b %Y"):
-        try:
-            cleaned["signup_date"] = (
-                datetime.strptime(cleaned["signup_date"], date_format).date().isoformat()
-            )
-            break
-        except ValueError:
-            pass
-    else:
-        raise ValueError(f"signup_date {cleaned['signup_date']!r} is not a recognised date")
+    cleaned["signup_date"] = _to_iso_date(cleaned["signup_date"])
     return cleaned
+
+
+def _strip(value):
+    return value.strip() if isinstance(value, str) else value
+
+
+def _to_iso_date(text: str) -> str:
+    for date_format in DATE_FORMATS:
+        try:
+            return datetime.strptime(text, date_format).date().isoformat()
+        except ValueError:
+            continue
+    raise ValueError(f"signup_date {text!r} is not a recognised date")
