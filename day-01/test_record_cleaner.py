@@ -39,3 +39,13 @@ def test_rejects_a_record_with_no_id_key():
 def test_rejects_a_blank_id(bad_id):
     with pytest.raises(ValueError, match="id"):
         clean_record(a_record(id=bad_id))
+
+
+@pytest.mark.parametrize(
+    "raw_date, expected",
+    [
+        ("12/01/2025", "2025-01-12"),
+    ],
+)
+def test_normalises_signup_date_to_iso(raw_date, expected):
+    assert clean_record(a_record(signup_date=raw_date))["signup_date"] == expected
