@@ -13,3 +13,13 @@ def test_does_not_modify_the_input_record():
     clean_record(raw)
 
     assert raw["name"] == "  Asha  "
+
+
+def test_trims_whitespace_from_every_text_field():
+    raw = a_record(id="  42 ", name="  Asha  ", city="\tPune\n")
+
+    cleaned = clean_record(raw)
+
+    assert cleaned["id"] == "42"
+    assert cleaned["name"] == "Asha"
+    assert cleaned["city"] == "Pune"
