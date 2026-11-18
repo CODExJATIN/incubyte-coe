@@ -1,48 +1,48 @@
-# data-craft
+# incubyte-coe
 
-Lightweight local playground for practising SQL and Python with DuckDB.
-No servers, no Docker — just Python 3.14, uv, Git and DuckDB 2.0.
+Day-by-day Python and SQL practice. Runs entirely on your machine: Python 3.14, uv, Git and DuckDB 2.0.
 
-## Setup (fresh clone)
+## Setup
 
 ```bash
 uv sync          # creates .venv and installs duckdb, pandas, pytest, ipython
-uv run pytest    # smoke tests
 ```
+
+The DuckDB console (`duckdb`, v2.0.0) is installed separately at `~/.local/bin/duckdb`.
+Keep it on the same version as the Python package.
 
 ## Layout
 
-| Path | Purpose |
-|------|---------|
-| `data/` | CSV / Parquet files to query (`*.duckdb` files are git-ignored) |
-| `sql/` | Practice SQL scripts |
-| `scripts/sql.py` | Small DuckDB runner / REPL |
-| `tests/` | pytest checks for your Python + SQL |
+```
+incubyte-coe/
+├── day-01/                      Python, test-first with pytest
+│   ├── record_cleaner.py        clean_record(): trim fields, normalise a date, reject a missing id
+│   └── test_record_cleaner.py   the tests (written first)
+├── day-02/                      SQL with DuckDB
+│   ├── sql/
+│   │   ├── joins.sql            inner / left / full / anti / semi joins
+│   │   ├── window_functions.sql ranking, running totals, lag, moving averages, QUALIFY
+│   │   └── set_operators.sql    UNION, UNION ALL, INTERSECT, EXCEPT, UNION BY NAME
+│   └── duckdb_practice.py       runs the SQL files from Python + Python/pandas examples
+└── README.md
+```
 
-## Practising SQL
+Every SQL file creates its own small tables, so each one runs on its own with no extra data files.
+
+## Day 01: record cleaner (TDD)
 
 ```bash
-uv run scripts/sql.py                       # interactive prompt, end with ;
-uv run scripts/sql.py sql/01_basics.sql     # run a file
-uv run scripts/sql.py -c "SELECT * FROM 'data/orders.csv'"
-uv run scripts/sql.py --memory ...          # throwaway in-memory DB
+uv run pytest day-01 -v              # red → make it green
+uv run pytest day-01 -k trim -v      # one behaviour at a time: trim, id, date
 ```
 
-By default it uses `data/craft.duckdb`, so tables you `CREATE` persist.
-DuckDB reads CSV/Parquet/JSON files directly: `SELECT * FROM 'data/x.csv'`.
-
-## Practising Python
+## Day 02: SQL
 
 ```bash
-uv run ipython
+duckdb -c ".read day-02/sql/joins.sql"        # in the console
+duckdb                                        # interactive; then: .read day-02/sql/joins.sql
+uv run day-02/duckdb_practice.py              # the same files, run from Python
+uv run day-02/duckdb_practice.py joins        # just one file
 ```
 
-```python
-import duckdb
-df = duckdb.sql("SELECT * FROM 'data/orders.csv'").df()   # -> pandas
-duckdb.sql("SELECT status, sum(amount) FROM df GROUP BY 1").show()  # query a DataFrame
-```
-
-Note: DuckDB 2.0 relations have no `fetchone()`; use `.fetchall()` or `.df()`.
-
-Add packages with `uv add <pkg>` (e.g. `uv add polars matplotlib jupyterlab`).
+Console tips: `.tables`, `.schema`, `.mode line`, `.timer on`, `.help`, `.quit`.
