@@ -49,3 +49,10 @@ JOIN customers c USING (customer_id)
 WHERE o.status = 'delivered'
 GROUP BY ALL
 ORDER BY revenue DESC;
+
+SELECT c.name,
+count(o.order_id) FILTER (WHERE o.status = 'delivered') AS delivered_orders,
+sum(o.amount) FILTER (WHERE o.status = 'delivered') AS delivered_total
+FROM customers c
+LEFT JOIN orders o ON o.customer_id = c.customer_id
+GROUP BY c.name
