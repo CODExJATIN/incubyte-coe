@@ -153,3 +153,11 @@ def test_writes_orders_as_a_csv_with_a_header(tmp_path):
         "order_id,customer,order_date,amount\n"
         "1001,Asha,2025-01-12,250.00\n"
     )
+
+
+def test_writes_only_the_header_when_there_are_no_orders(tmp_path):
+    path = tmp_path / "clean.csv"
+
+    write_orders([], path)
+
+    assert path.read_text() == "order_id,customer,order_date,amount\n"
