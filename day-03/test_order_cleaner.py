@@ -116,3 +116,11 @@ def test_keeps_an_order_with_an_empty_customer():
     no_customer = an_order(customer="")
 
     assert clean_orders([no_customer]) == [no_customer]
+
+
+def test_does_not_modify_the_input_orders():
+    padded = an_order(order_id=" 1004 ", order_date="12/01/2025")
+
+    clean_orders([padded])
+
+    assert padded == an_order(order_id=" 1004 ", order_date="12/01/2025")
