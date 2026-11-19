@@ -37,13 +37,13 @@ def test_removes_duplicate_ids(ids, kept_ids):
     assert [order["order_id"] for order in kept] == kept_ids
 
 
-def test_leaves_an_iso_date_unchanged():
-    assert normalise_date("2025-01-12") == "2025-01-12"
-
-
-def test_converts_a_day_first_slash_date_to_iso():
-    assert normalise_date("12/01/2025") == "2025-01-12"
-
-
-def test_converts_a_month_name_date_to_iso():
-    assert normalise_date("12 Jan 2025") == "2025-01-12"
+@pytest.mark.parametrize(
+    "raw_date",
+    [
+        pytest.param("2025-01-12", id="iso"),
+        pytest.param("12/01/2025", id="day-first-slashes"),
+        pytest.param("12 Jan 2025", id="month-name"),
+    ],
+)
+def test_normalises_a_readable_date_to_iso(raw_date):
+    assert normalise_date(raw_date) == "2025-01-12"

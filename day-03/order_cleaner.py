@@ -12,9 +12,11 @@ def remove_duplicates(orders):
     return unique_orders
 
 
+DATE_FORMAT_BY_SEPARATOR = {"/": "%d/%m/%Y", " ": "%d %b %Y"}
+
+
 def normalise_date(raw_date):
-    if "/" in raw_date:
-        return datetime.strptime(raw_date, "%d/%m/%Y").date().isoformat()
-    if " " in raw_date:
-        return datetime.strptime(raw_date, "%d %b %Y").date().isoformat()
+    for separator, date_format in DATE_FORMAT_BY_SEPARATOR.items():
+        if separator in raw_date:
+            return datetime.strptime(raw_date, date_format).date().isoformat()
     return raw_date
