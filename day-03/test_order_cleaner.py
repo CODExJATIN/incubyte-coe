@@ -1,3 +1,5 @@
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -179,3 +181,12 @@ def test_turns_the_messy_sample_file_into_a_clean_file(tmp_path):
         an_order(order_id="1003", customer="Meera", order_date="2025-01-12", amount="40"),
         an_order(order_id="1005", customer="", order_date="2025-03-01", amount="10"),
     ]
+
+
+def test_runs_as_a_script_from_the_command_line(tmp_path):
+    clean_path = tmp_path / "clean.csv"
+    script = Path(__file__).parent / "order_cleaner.py"
+
+    subprocess.run([sys.executable, script, SAMPLE_ORDERS_CSV, clean_path], check=True)
+
+    assert len(read_orders(clean_path)) == 4
