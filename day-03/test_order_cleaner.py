@@ -58,6 +58,7 @@ def test_normalises_a_readable_date_to_iso(raw_date):
         pytest.param('', id='empty'),
         pytest.param('   ', id='only-spaces'),
         pytest.param('next Tuesday', id='words-with-spaces'),
+        pytest.param('2025/01/12', id='year-first-slashes'),
     ],
 )
 def test_rejects_an_unreadable_date(raw_date):
