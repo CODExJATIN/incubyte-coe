@@ -110,3 +110,9 @@ def test_removes_duplicate_ids_after_trimming():
     padded_repeat = an_order(order_id=" 1001 ", amount="999.00")
 
     assert clean_orders([first, padded_repeat]) == [first]
+
+
+def test_keeps_an_order_with_an_empty_customer():
+    no_customer = an_order(customer="")
+
+    assert clean_orders([no_customer]) == [no_customer]
