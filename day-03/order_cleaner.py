@@ -20,4 +20,4 @@ def normalise_date(raw_date):
     for separator, date_format in DATE_FORMAT_BY_SEPARATOR.items():
         if separator in trimmed_date:
             return datetime.strptime(trimmed_date, date_format).date().isoformat()
-    return trimmed_date
+    return datetime.strptime(trimmed_date, "%Y-%m-%d").date().isoformat()

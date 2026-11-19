@@ -48,3 +48,14 @@ def test_removes_duplicate_ids(ids, kept_ids):
 )
 def test_normalises_a_readable_date_to_iso(raw_date):
     assert normalise_date(raw_date) == "2025-01-12"
+
+
+@pytest.mark.parametrize(
+    "raw_date",
+    [
+        pytest.param("tomorrow", id="single-word"),
+    ],
+)
+def test_rejects_an_unreadable_date(raw_date):
+    with pytest.raises(ValueError):
+        normalise_date(raw_date)
