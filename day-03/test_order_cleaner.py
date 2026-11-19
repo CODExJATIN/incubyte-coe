@@ -8,3 +8,12 @@ def test_keeps_the_first_order_when_an_id_repeats():
     ]
 
     assert remove_duplicates(orders) == [{"order_id": "1001", "amount": "250.00"}]
+
+
+def test_keeps_every_order_when_ids_are_different():
+    orders = [
+        {"order_id": "1001", "amount": "250.00"},
+        {"order_id": "1002", "amount": "99.50"},
+    ]
+
+    assert remove_duplicates(orders) == orders
