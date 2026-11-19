@@ -1,6 +1,6 @@
 import pytest
 
-from order_cleaner import normalise_date, remove_duplicates
+from order_cleaner import clean_orders, normalise_date, remove_duplicates
 
 
 def an_order(**overrides):
@@ -64,3 +64,9 @@ def test_normalises_a_readable_date_to_iso(raw_date):
 def test_rejects_an_unreadable_date(raw_date):
     with pytest.raises(ValueError):
         normalise_date(raw_date)
+
+
+def test_passes_a_clean_order_through_unchanged():
+    order = an_order()
+
+    assert clean_orders([order]) == [order]
