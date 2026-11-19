@@ -43,6 +43,7 @@ def test_removes_duplicate_ids(ids, kept_ids):
         pytest.param("2025-01-12", id="iso"),
         pytest.param("12/01/2025", id="day-first-slashes"),
         pytest.param("12 Jan 2025", id="month-name"),
+        pytest.param("  12/01/2025 ", id="surrounding-spaces"),
     ],
 )
 def test_normalises_a_readable_date_to_iso(raw_date):

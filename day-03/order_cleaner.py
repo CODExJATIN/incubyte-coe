@@ -16,7 +16,8 @@ DATE_FORMAT_BY_SEPARATOR = {"/": "%d/%m/%Y", " ": "%d %b %Y"}
 
 
 def normalise_date(raw_date):
+    trimmed_date = raw_date.strip()
     for separator, date_format in DATE_FORMAT_BY_SEPARATOR.items():
-        if separator in raw_date:
-            return datetime.strptime(raw_date, date_format).date().isoformat()
-    return raw_date
+        if separator in trimmed_date:
+            return datetime.strptime(trimmed_date, date_format).date().isoformat()
+    return trimmed_date
