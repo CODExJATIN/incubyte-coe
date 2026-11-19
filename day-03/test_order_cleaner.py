@@ -1,6 +1,6 @@
 import pytest
 
-from order_cleaner import clean_orders, normalise_date, remove_duplicates
+from order_cleaner import clean_orders, normalise_date, read_orders, remove_duplicates
 
 
 def an_order(**overrides):
@@ -124,3 +124,21 @@ def test_does_not_modify_the_input_orders():
     clean_orders([padded])
 
     assert padded == an_order(order_id=" 1004 ", order_date="12/01/2025")
+
+
+@pytest.fixture
+def small_csv(tmp_path):
+    path = tmp_path / "orders.csv"
+    path.write_text(
+        "order_id,customer,order_date,amount\n"
+        "1001,Asha,2025-01-12,250.00\n"
+        " 1004 ,Kiran,2025-02-30,75\n"
+    )
+    return path
+
+
+def test_reads_every_row_of_a_csv_as_a_dict_of_strings(small_csv):
+    assert read_orders(small_csv) == [
+        an_order(),
+        an_order(order_id=" 1004 ", customer="Kiran", order_date="2025-02-30", amount="75"),
+    ]

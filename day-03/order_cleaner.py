@@ -1,3 +1,4 @@
+import csv
 from datetime import datetime
 
 
@@ -42,3 +43,8 @@ def clean_orders(orders):
         except ValueError:
             continue
     return remove_duplicates(cleaned_orders)
+
+
+def read_orders(path):
+    with open(path, newline="") as file:
+        return list(csv.DictReader(file))
