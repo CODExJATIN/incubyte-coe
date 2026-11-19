@@ -103,3 +103,10 @@ def test_trims_spaces_from_every_field():
     padded = an_order(order_id=" 1004 ", customer="  Kiran ", amount=" 75 ")
 
     assert clean_orders([padded]) == [an_order(order_id="1004", customer="Kiran", amount="75")]
+
+
+def test_removes_duplicate_ids_after_trimming():
+    first = an_order(order_id="1001", amount="250.00")
+    padded_repeat = an_order(order_id=" 1001 ", amount="999.00")
+
+    assert clean_orders([first, padded_repeat]) == [first]
