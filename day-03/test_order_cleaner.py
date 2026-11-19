@@ -1,6 +1,6 @@
 import pytest
 
-from order_cleaner import clean_orders, normalise_date, read_orders, remove_duplicates
+from order_cleaner import clean_orders, normalise_date, read_orders, remove_duplicates, write_orders
 
 
 def an_order(**overrides):
@@ -142,3 +142,14 @@ def test_reads_every_row_of_a_csv_as_a_dict_of_strings(small_csv):
         an_order(),
         an_order(order_id=" 1004 ", customer="Kiran", order_date="2025-02-30", amount="75"),
     ]
+
+
+def test_writes_orders_as_a_csv_with_a_header(tmp_path):
+    path = tmp_path / "clean.csv"
+
+    write_orders([an_order()], path)
+
+    assert path.read_text() == (
+        "order_id,customer,order_date,amount\n"
+        "1001,Asha,2025-01-12,250.00\n"
+    )

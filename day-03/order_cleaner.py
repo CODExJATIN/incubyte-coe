@@ -48,3 +48,10 @@ def clean_orders(orders):
 def read_orders(path):
     with open(path, newline="") as file:
         return list(csv.DictReader(file))
+
+
+def write_orders(orders, path):
+    with open(path, "w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=list(orders[0]), lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(orders)
