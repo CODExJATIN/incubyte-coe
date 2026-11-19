@@ -17,3 +17,16 @@ def test_keeps_every_order_when_ids_are_different():
     ]
 
     assert remove_duplicates(orders) == orders
+
+
+def test_removes_a_duplicate_that_is_not_next_to_the_original():
+    orders = [
+        {"order_id": "1001", "amount": "250.00"},
+        {"order_id": "1002", "amount": "99.50"},
+        {"order_id": "1001", "amount": "999.00"},
+    ]
+
+    assert remove_duplicates(orders) == [
+        {"order_id": "1001", "amount": "250.00"},
+        {"order_id": "1002", "amount": "99.50"},
+    ]
