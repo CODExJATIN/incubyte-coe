@@ -1,4 +1,5 @@
 import csv
+import sys
 from datetime import datetime
 
 
@@ -60,3 +61,7 @@ def write_orders(orders, path):
 
 def clean_file(input_path, output_path):
     write_orders(clean_orders(read_orders(input_path)), output_path)
+
+
+if __name__ == "__main__":
+    clean_file(sys.argv[1], sys.argv[2])
