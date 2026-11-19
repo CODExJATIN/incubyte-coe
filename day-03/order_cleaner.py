@@ -7,3 +7,7 @@ def remove_duplicates(orders):
             seen_ids.add(order_id)
             unique_orders.append(order)
     return unique_orders
+
+
+def normalise_date(raw_date):
+    return raw_date

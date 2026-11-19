@@ -1,6 +1,6 @@
 import pytest
 
-from order_cleaner import remove_duplicates
+from order_cleaner import normalise_date, remove_duplicates
 
 
 def an_order(**overrides):
@@ -35,3 +35,7 @@ def test_removes_duplicate_ids(ids, kept_ids):
     kept = remove_duplicates(orders)
 
     assert [order["order_id"] for order in kept] == kept_ids
+
+
+def test_leaves_an_iso_date_unchanged():
+    assert normalise_date("2025-01-12") == "2025-01-12"
