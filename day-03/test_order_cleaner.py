@@ -76,3 +76,10 @@ def test_normalises_the_order_date_of_every_order():
     cleaned = clean_orders([an_order(order_date="12/01/2025")])
 
     assert cleaned[0]["order_date"] == "2025-01-12"
+
+
+def test_drops_an_order_whose_date_cannot_be_read():
+    good = an_order(order_id="1001")
+    unreadable = an_order(order_id="1006", order_date="next Tuesday")
+
+    assert clean_orders([good, unreadable]) == [good]

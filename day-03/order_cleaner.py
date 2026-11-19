@@ -24,4 +24,11 @@ def normalise_date(raw_date):
 
 
 def clean_orders(orders):
-    return [{**order, "order_date": normalise_date(order["order_date"])} for order in orders]
+    cleaned_orders = []
+    for order in orders:
+        try:
+            order_date = normalise_date(order["order_date"])
+        except ValueError:
+            continue
+        cleaned_orders.append({**order, "order_date": order_date})
+    return cleaned_orders
