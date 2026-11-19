@@ -4,7 +4,14 @@ from pathlib import Path
 
 import pytest
 
-from order_cleaner import clean_file, clean_orders, normalise_date, read_orders, remove_duplicates, write_orders
+from order_cleaner import (
+    clean_file,
+    clean_orders,
+    normalise_date,
+    read_orders,
+    remove_duplicates,
+    write_orders,
+)
 
 
 def an_order(**overrides):
