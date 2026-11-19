@@ -1,0 +1,10 @@
+order_id,customer,order_date,amount
+1001,Asha,2025-01-12,250.00
+1002,Ravi,12/01/2025,99.50
+1001,Asha,2025-01-12,250.00
+1003,Meera,12 Jan 2025,40
+ 1004 ,Kiran,2025-02-30,75
+1005,,2025-03-01,10
+,Dev,2025-03-02,20
+1006,Nisha,next Tuesday,60
+1007,Arjun,,15
