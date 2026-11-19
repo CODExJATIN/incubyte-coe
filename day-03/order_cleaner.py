@@ -12,7 +12,7 @@ def remove_duplicates(orders):
     return unique_orders
 
 
-DATE_FORMAT_BY_SEPARATOR = {"/": "%d/%m/%Y", " ": "%d %b %Y"}
+DATE_FORMAT_BY_SEPARATOR = {"-": "%Y-%m-%d", "/": "%d/%m/%Y", " ": "%d %b %Y"}
 
 
 def normalise_date(raw_date):
@@ -20,4 +20,4 @@ def normalise_date(raw_date):
     for separator, date_format in DATE_FORMAT_BY_SEPARATOR.items():
         if separator in trimmed_date:
             return datetime.strptime(trimmed_date, date_format).date().isoformat()
-    return datetime.strptime(trimmed_date, "%Y-%m-%d").date().isoformat()
+    raise ValueError(f"unreadable date: {raw_date!r}")
