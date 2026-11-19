@@ -54,6 +54,7 @@ def test_normalises_a_readable_date_to_iso(raw_date):
     "raw_date",
     [
         pytest.param("tomorrow", id="single-word"),
+        pytest.param('2025-02-30', id='impossible-day'),
     ],
 )
 def test_rejects_an_unreadable_date(raw_date):
