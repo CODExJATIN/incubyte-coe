@@ -70,3 +70,9 @@ def test_passes_a_clean_order_through_unchanged():
     order = an_order()
 
     assert clean_orders([order]) == [order]
+
+
+def test_normalises_the_order_date_of_every_order():
+    cleaned = clean_orders([an_order(order_date="12/01/2025")])
+
+    assert cleaned[0]["order_date"] == "2025-01-12"
