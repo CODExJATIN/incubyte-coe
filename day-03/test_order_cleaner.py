@@ -39,3 +39,7 @@ def test_removes_duplicate_ids(ids, kept_ids):
 
 def test_leaves_an_iso_date_unchanged():
     assert normalise_date("2025-01-12") == "2025-01-12"
+
+
+def test_converts_a_day_first_slash_date_to_iso():
+    assert normalise_date("12/01/2025") == "2025-01-12"
