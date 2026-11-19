@@ -97,3 +97,9 @@ def test_drops_an_order_with_a_blank_id(blank_id):
     no_id = an_order(order_id=blank_id)
 
     assert clean_orders([good, no_id]) == [good]
+
+
+def test_trims_spaces_from_every_field():
+    padded = an_order(order_id=" 1004 ", customer="  Kiran ", amount=" 75 ")
+
+    assert clean_orders([padded]) == [an_order(order_id="1004", customer="Kiran", amount="75")]

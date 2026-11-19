@@ -26,6 +26,7 @@ def normalise_date(raw_date):
 def clean_orders(orders):
     cleaned_orders = []
     for order in orders:
+        order = {field: value.strip() for field, value in order.items()}
         if not order["order_id"].strip():
             continue
         try:
