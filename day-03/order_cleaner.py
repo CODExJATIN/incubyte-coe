@@ -56,3 +56,7 @@ def write_orders(orders, path):
         writer = csv.DictWriter(file, fieldnames=ORDER_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(orders)
+
+
+def clean_file(input_path, output_path):
+    write_orders(clean_orders(read_orders(input_path)), output_path)
