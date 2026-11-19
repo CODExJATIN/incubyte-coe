@@ -13,6 +13,7 @@ def remove_duplicates(orders):
     return unique_orders
 
 
+ORDER_FIELDS = ["order_id", "customer", "order_date", "amount"]
 DATE_FORMAT_BY_SEPARATOR = {"-": "%Y-%m-%d", "/": "%d/%m/%Y", " ": "%d %b %Y"}
 
 
@@ -52,6 +53,6 @@ def read_orders(path):
 
 def write_orders(orders, path):
     with open(path, "w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=list(orders[0]), lineterminator="\n")
+        writer = csv.DictWriter(file, fieldnames=ORDER_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(orders)
