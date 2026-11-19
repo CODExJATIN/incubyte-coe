@@ -26,6 +26,8 @@ def normalise_date(raw_date):
 def clean_orders(orders):
     cleaned_orders = []
     for order in orders:
+        if not order["order_id"].strip():
+            continue
         try:
             order_date = normalise_date(order["order_date"])
         except ValueError:

@@ -83,3 +83,17 @@ def test_drops_an_order_whose_date_cannot_be_read():
     unreadable = an_order(order_id="1006", order_date="next Tuesday")
 
     assert clean_orders([good, unreadable]) == [good]
+
+
+@pytest.mark.parametrize(
+    "blank_id",
+    [
+        pytest.param("", id="empty"),
+        pytest.param("   ", id="only-spaces"),
+    ],
+)
+def test_drops_an_order_with_a_blank_id(blank_id):
+    good = an_order(order_id="1001")
+    no_id = an_order(order_id=blank_id)
+
+    assert clean_orders([good, no_id]) == [good]
