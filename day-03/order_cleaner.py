@@ -21,3 +21,7 @@ def normalise_date(raw_date):
         if separator in trimmed_date:
             return datetime.strptime(trimmed_date, date_format).date().isoformat()
     raise ValueError(f"unreadable date: {raw_date!r}")
+
+
+def clean_orders(orders):
+    return orders
