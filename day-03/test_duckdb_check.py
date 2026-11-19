@@ -1,7 +1,7 @@
 import duckdb
 import pytest
 
-from order_checks import load_orders_table
+from order_checks import load_orders_table, order_counts
 
 
 @pytest.fixture
@@ -25,3 +25,7 @@ def test_loads_orders_with_explicit_column_types(orders_db):
         "order_date": "DATE",
         "amount": "DECIMAL(10,2)",
     }
+
+
+def test_counts_rows_distinct_ids_and_missing_dates(orders_db):
+    assert order_counts(orders_db) == {"rows": 4, "distinct_ids": 4, "missing_dates": 0}

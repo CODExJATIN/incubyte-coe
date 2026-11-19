@@ -11,3 +11,16 @@ def load_orders_table(connection, csv_path):
         """,
         [str(csv_path)],
     )
+
+
+def order_counts(connection):
+    rows, distinct_ids, missing_dates = connection.execute(
+        """
+        select
+            count(*),
+            count(distinct order_id),
+            count(*) filter (where order_date is null)
+        from orders
+        """
+    ).fetchone()
+    return {"rows": rows, "distinct_ids": distinct_ids, "missing_dates": missing_dates}
