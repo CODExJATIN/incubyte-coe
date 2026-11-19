@@ -1,6 +1,8 @@
+from pathlib import Path
+
 import pytest
 
-from order_cleaner import clean_orders, normalise_date, read_orders, remove_duplicates, write_orders
+from order_cleaner import clean_file, clean_orders, normalise_date, read_orders, remove_duplicates, write_orders
 
 
 def an_order(**overrides):
@@ -161,3 +163,19 @@ def test_writes_only_the_header_when_there_are_no_orders(tmp_path):
     write_orders([], path)
 
     assert path.read_text() == "order_id,customer,order_date,amount\n"
+
+
+SAMPLE_ORDERS_CSV = Path(__file__).parent / "orders.csv"
+
+
+def test_turns_the_messy_sample_file_into_a_clean_file(tmp_path):
+    clean_path = tmp_path / "clean.csv"
+
+    clean_file(SAMPLE_ORDERS_CSV, clean_path)
+
+    assert read_orders(clean_path) == [
+        an_order(order_id="1001", customer="Asha", order_date="2025-01-12", amount="250.00"),
+        an_order(order_id="1002", customer="Ravi", order_date="2025-01-12", amount="99.50"),
+        an_order(order_id="1003", customer="Meera", order_date="2025-01-12", amount="40"),
+        an_order(order_id="1005", customer="", order_date="2025-03-01", amount="10"),
+    ]
