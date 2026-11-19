@@ -24,4 +24,4 @@ def normalise_date(raw_date):
 
 
 def clean_orders(orders):
-    return orders
+    return [{**order, "order_date": normalise_date(order["order_date"])} for order in orders]
