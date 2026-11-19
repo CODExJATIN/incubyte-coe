@@ -41,4 +41,4 @@ def clean_orders(orders):
             cleaned_orders.append(clean_order(order))
         except ValueError:
             continue
-    return cleaned_orders
+    return remove_duplicates(cleaned_orders)
