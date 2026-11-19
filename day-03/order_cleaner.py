@@ -23,15 +23,22 @@ def normalise_date(raw_date):
     raise ValueError(f"unreadable date: {raw_date!r}")
 
 
+def trim_fields(order):
+    return {field: value.strip() for field, value in order.items()}
+
+
+def clean_order(order):
+    trimmed_order = trim_fields(order)
+    if not trimmed_order["order_id"]:
+        raise ValueError("blank order_id")
+    return {**trimmed_order, "order_date": normalise_date(trimmed_order["order_date"])}
+
+
 def clean_orders(orders):
     cleaned_orders = []
     for order in orders:
-        order = {field: value.strip() for field, value in order.items()}
-        if not order["order_id"].strip():
-            continue
         try:
-            order_date = normalise_date(order["order_date"])
+            cleaned_orders.append(clean_order(order))
         except ValueError:
             continue
-        cleaned_orders.append({**order, "order_date": order_date})
     return cleaned_orders
