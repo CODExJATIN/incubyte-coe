@@ -43,3 +43,7 @@ def test_leaves_an_iso_date_unchanged():
 
 def test_converts_a_day_first_slash_date_to_iso():
     assert normalise_date("12/01/2025") == "2025-01-12"
+
+
+def test_converts_a_month_name_date_to_iso():
+    assert normalise_date("12 Jan 2025") == "2025-01-12"

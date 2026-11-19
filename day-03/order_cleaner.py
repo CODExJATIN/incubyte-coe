@@ -15,4 +15,6 @@ def remove_duplicates(orders):
 def normalise_date(raw_date):
     if "/" in raw_date:
         return datetime.strptime(raw_date, "%d/%m/%Y").date().isoformat()
+    if " " in raw_date:
+        return datetime.strptime(raw_date, "%d %b %Y").date().isoformat()
     return raw_date
