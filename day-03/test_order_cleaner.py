@@ -30,3 +30,12 @@ def test_removes_a_duplicate_that_is_not_next_to_the_original():
         {"order_id": "1001", "amount": "250.00"},
         {"order_id": "1002", "amount": "99.50"},
     ]
+
+
+def test_treats_ids_that_differ_only_by_spaces_as_duplicates():
+    orders = [
+        {"order_id": "1001", "amount": "250.00"},
+        {"order_id": " 1001 ", "amount": "999.00"},
+    ]
+
+    assert remove_duplicates(orders) == [{"order_id": "1001", "amount": "250.00"}]
