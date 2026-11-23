@@ -13,12 +13,12 @@ def flatten(record, prefix=""):
 
 def flatten_all(records, columns, defaults=None):
     defaults = defaults or {}
-    rows = []
-    for record in records:
-        flat = flatten(record)
-        row = {}
-        for column in columns:
-            value = flat.get(column)
-            row[column] = defaults.get(column) if value is None else value
-        rows.append(row)
-    return rows
+    return [build_row(flatten(record), columns, defaults) for record in records]
+
+
+def build_row(flat, columns, defaults):
+    row = {}
+    for column in columns:
+        value = flat.get(column)
+        row[column] = defaults.get(column) if value is None else value
+    return row
