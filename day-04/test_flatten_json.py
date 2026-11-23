@@ -1,3 +1,5 @@
+import pytest
+
 from flatten_json import flatten, flatten_all
 
 
@@ -50,4 +52,20 @@ def test_fills_a_null_value_with_its_default_when_one_is_given():
 
     assert flatten_all(records, columns=["id", "country"], defaults={"country": "IN"}) == [
         {"id": 1, "country": "IN"}
+    ]
+
+
+@pytest.mark.parametrize(
+    "falsy_value",
+    [
+        pytest.param(0, id="zero"),
+        pytest.param("", id="empty-string"),
+        pytest.param(False, id="false"),
+    ],
+)
+def test_keeps_a_falsy_value_even_when_a_default_is_given(falsy_value):
+    records = [{"id": 1, "amount": falsy_value}]
+
+    assert flatten_all(records, columns=["id", "amount"], defaults={"amount": 100}) == [
+        {"id": 1, "amount": falsy_value}
     ]
