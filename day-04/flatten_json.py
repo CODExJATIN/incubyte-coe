@@ -16,5 +16,9 @@ def flatten_all(records, columns, defaults=None):
     rows = []
     for record in records:
         flat = flatten(record)
-        rows.append({column: flat.get(column, defaults.get(column)) for column in columns})
+        row = {}
+        for column in columns:
+            value = flat.get(column)
+            row[column] = defaults.get(column) if value is None else value
+        rows.append(row)
     return rows

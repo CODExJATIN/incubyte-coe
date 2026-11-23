@@ -43,3 +43,11 @@ def test_fills_a_missing_column_with_its_default_when_one_is_given():
     assert flatten_all(
         records, columns=["id", "country", "email"], defaults={"country": "IN"}
     ) == [{"id": 1, "country": "IN", "email": None}]
+
+
+def test_fills_a_null_value_with_its_default_when_one_is_given():
+    records = [{"id": 1, "country": None}]
+
+    assert flatten_all(records, columns=["id", "country"], defaults={"country": "IN"}) == [
+        {"id": 1, "country": "IN"}
+    ]
