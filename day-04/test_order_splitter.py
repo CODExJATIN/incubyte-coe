@@ -57,3 +57,20 @@ def test_ignores_an_unexpected_new_line_field():
     _, line_rows = split_order(order)
 
     assert line_rows == [{"order_id": "1004", "sku": "D9", "qty": 3}]
+
+
+def test_keeps_an_order_with_an_empty_items_array_and_gives_it_no_lines():
+    order = {
+        "order_id": "1005",
+        "customer": {"name": "Zoya", "email": "zoya@example.com"},
+        "items": [],
+    }
+
+    order_row, line_rows = split_order(order)
+
+    assert order_row == {
+        "order_id": "1005",
+        "customer.name": "Zoya",
+        "customer.email": "zoya@example.com",
+    }
+    assert line_rows == []
