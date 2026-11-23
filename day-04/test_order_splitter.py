@@ -45,3 +45,15 @@ def test_ignores_an_unexpected_new_order_field():
         "customer.name": "Meera",
         "customer.email": "meera@example.com",
     }
+
+
+def test_ignores_an_unexpected_new_line_field():
+    order = {
+        "order_id": "1004",
+        "customer": {"name": "Kabir", "email": "kabir@example.com"},
+        "items": [{"sku": "D9", "qty": 3, "gift_wrap": True}],
+    }
+
+    _, line_rows = split_order(order)
+
+    assert line_rows == [{"order_id": "1004", "sku": "D9", "qty": 3}]
