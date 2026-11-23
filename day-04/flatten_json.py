@@ -9,3 +9,11 @@ def flatten(record, prefix=""):
         else:
             flat[full_key] = value
     return flat
+
+
+def flatten_all(records, columns):
+    rows = []
+    for record in records:
+        flat = flatten(record)
+        rows.append({column: flat.get(column) for column in columns})
+    return rows

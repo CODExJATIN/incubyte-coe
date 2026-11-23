@@ -1,4 +1,4 @@
-from flatten_json import flatten
+from flatten_json import flatten, flatten_all
 
 
 def test_joins_nested_keys_with_a_dot():
@@ -23,3 +23,15 @@ def test_turns_an_empty_nested_object_into_null():
     record = {"id": 1, "address": {}}
 
     assert flatten(record) == {"id": 1, "address": None}
+
+
+def test_fills_a_column_missing_from_a_record_with_null():
+    records = [
+        {"id": 1, "customer": {"email": "asha@example.com"}},
+        {"id": 2},
+    ]
+
+    assert flatten_all(records, columns=["id", "customer.email"]) == [
+        {"id": 1, "customer.email": "asha@example.com"},
+        {"id": 2, "customer.email": None},
+    ]
