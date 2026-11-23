@@ -14,3 +14,21 @@ def load_orders(connection, orders):
         line_rows.extend(lines)
     load_table(connection, "orders", order_rows, ORDER_TYPES)
     load_table(connection, "order_lines", line_rows, LINE_TYPES)
+
+
+def reconcile(connection):
+    orders = connection.execute("select count(*) from orders").fetchone()[0]
+    lines = connection.execute("select count(*) from order_lines").fetchone()[0]
+    orders_after_join, lines_after_join = connection.execute(
+        """
+        select count(distinct o.order_id), count(l.order_id)
+        from orders o
+        left join order_lines l on l.order_id = o.order_id
+        """
+    ).fetchone()
+    return {
+        "orders": orders,
+        "orders_after_join": orders_after_join,
+        "lines": lines,
+        "lines_after_join": lines_after_join,
+    }

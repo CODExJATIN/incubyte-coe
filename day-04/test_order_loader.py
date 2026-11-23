@@ -1,7 +1,7 @@
 import duckdb
 import pytest
 
-from order_loader import load_orders
+from order_loader import load_orders, reconcile
 
 
 @pytest.fixture
@@ -36,3 +36,14 @@ def test_loads_one_row_per_order_and_one_row_per_line(db):
 
     assert db.execute("select count(*) from orders").fetchone()[0] == 3
     assert db.execute("select count(*) from order_lines").fetchone()[0] == 3
+
+
+def test_joining_lines_back_to_orders_loses_no_order_and_no_line(db):
+    load_orders(db, some_orders())
+
+    assert reconcile(db) == {
+        "orders": 3,
+        "orders_after_join": 3,
+        "lines": 3,
+        "lines_after_join": 3,
+    }
