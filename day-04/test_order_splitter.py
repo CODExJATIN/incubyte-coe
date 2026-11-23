@@ -28,3 +28,20 @@ def test_fills_a_missing_order_field_with_null():
     order_row, _ = split_order(order)
 
     assert order_row == {"order_id": "1002", "customer.name": "Ravi", "customer.email": None}
+
+
+def test_ignores_an_unexpected_new_order_field():
+    order = {
+        "order_id": "1003",
+        "customer": {"name": "Meera", "email": "meera@example.com"},
+        "coupon": "DIWALI",
+        "items": [{"sku": "C3", "qty": 1}],
+    }
+
+    order_row, _ = split_order(order)
+
+    assert order_row == {
+        "order_id": "1003",
+        "customer.name": "Meera",
+        "customer.email": "meera@example.com",
+    }
