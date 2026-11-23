@@ -11,9 +11,10 @@ def flatten(record, prefix=""):
     return flat
 
 
-def flatten_all(records, columns):
+def flatten_all(records, columns, defaults=None):
+    defaults = defaults or {}
     rows = []
     for record in records:
         flat = flatten(record)
-        rows.append({column: flat.get(column) for column in columns})
+        rows.append({column: flat.get(column, defaults.get(column)) for column in columns})
     return rows

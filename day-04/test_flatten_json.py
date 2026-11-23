@@ -35,3 +35,11 @@ def test_fills_a_column_missing_from_a_record_with_null():
         {"id": 1, "customer.email": "asha@example.com"},
         {"id": 2, "customer.email": None},
     ]
+
+
+def test_fills_a_missing_column_with_its_default_when_one_is_given():
+    records = [{"id": 1}]
+
+    assert flatten_all(
+        records, columns=["id", "country", "email"], defaults={"country": "IN"}
+    ) == [{"id": 1, "country": "IN", "email": None}]
