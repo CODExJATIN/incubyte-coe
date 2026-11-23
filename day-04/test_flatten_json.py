@@ -17,3 +17,9 @@ def test_keeps_a_null_value_instead_of_dropping_the_field():
     record = {"id": 1, "customer": None}
 
     assert flatten(record) == {"id": 1, "customer": None}
+
+
+def test_turns_an_empty_nested_object_into_null():
+    record = {"id": 1, "address": {}}
+
+    assert flatten(record) == {"id": 1, "address": None}
