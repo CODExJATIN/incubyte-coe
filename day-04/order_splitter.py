@@ -9,6 +9,7 @@ def split_order(order):
     order_row = build_row(flatten(header), ORDER_COLUMNS, {})
     line_rows = [
         build_row({"order_id": order["order_id"], **flatten(item)}, LINE_COLUMNS, {})
-        for item in order["items"]
+        for item in order.get("items") or []
+        if isinstance(item, dict)
     ]
     return order_row, line_rows

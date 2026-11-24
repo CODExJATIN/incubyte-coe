@@ -74,3 +74,29 @@ def test_keeps_an_order_with_an_empty_items_array_and_gives_it_no_lines():
         "customer.email": "zoya@example.com",
     }
     assert line_rows == []
+
+
+def test_keeps_an_order_with_no_items_field_and_gives_it_no_lines():
+    order = {"order_id": "1006", "customer": {"name": "Kabir", "email": "kabir@example.com"}}
+
+    order_row, line_rows = split_order(order)
+
+    assert order_row["order_id"] == "1006"
+    assert line_rows == []
+
+
+def test_keeps_an_order_whose_items_are_null_and_gives_it_no_lines():
+    order = {"order_id": "1007", "customer": {"name": "Ira", "email": "ira@example.com"}, "items": None}
+
+    order_row, line_rows = split_order(order)
+
+    assert order_row["order_id"] == "1007"
+    assert line_rows == []
+
+
+def test_skips_a_line_that_is_not_an_object_and_keeps_the_rest():
+    order = {"order_id": "1008", "items": [None, "junk", {"sku": "E5", "qty": 1}]}
+
+    _, line_rows = split_order(order)
+
+    assert line_rows == [{"order_id": "1008", "sku": "E5", "qty": 1}]
