@@ -9,6 +9,7 @@ from order_cleaner import (
     clean_orders,
     normalise_date,
     read_orders,
+    read_orders_json,
     remove_duplicates,
     write_orders,
 )
@@ -155,6 +156,26 @@ def test_reads_every_row_of_a_csv_as_a_dict_of_strings(small_csv):
     ]
 
 
+def test_reads_every_order_of_a_json_file_as_a_dict_of_strings(tmp_path):
+    path = tmp_path / "orders.json"
+    path.write_text(
+        '[{"order_id": "1001", "customer": "Asha", "order_date": "2025-01-12", "amount": "250.00"}]'
+    )
+
+    assert read_orders_json(path) == [an_order()]
+
+
+def test_turns_json_numbers_and_nulls_into_strings(tmp_path):
+    path = tmp_path / "orders.json"
+    path.write_text(
+        '[{"order_id": 1005, "customer": null, "order_date": "2025-03-01", "amount": 10.5}]'
+    )
+
+    assert read_orders_json(path) == [
+        an_order(order_id="1005", customer="", order_date="2025-03-01", amount="10.5")
+    ]
+
+
 def test_writes_orders_as_a_csv_with_a_header(tmp_path):
     path = tmp_path / "clean.csv"
 
@@ -187,6 +208,21 @@ def test_turns_the_messy_sample_file_into_a_clean_file(tmp_path):
         an_order(order_id="1002", customer="Ravi", order_date="2025-01-12", amount="99.50"),
         an_order(order_id="1003", customer="Meera", order_date="2025-01-12", amount="40"),
         an_order(order_id="1005", customer="", order_date="2025-03-01", amount="10"),
+    ]
+
+
+def test_cleans_a_json_file_into_a_clean_csv(tmp_path):
+    json_path = tmp_path / "orders.json"
+    json_path.write_text(
+        '[{"order_id": 1002, "customer": "Ravi", "order_date": "12/01/2025", "amount": 99.5},'
+        ' {"order_id": 1002, "customer": "Ravi", "order_date": "12/01/2025", "amount": 99.5}]'
+    )
+    clean_path = tmp_path / "clean.csv"
+
+    clean_file(json_path, clean_path)
+
+    assert read_orders(clean_path) == [
+        an_order(order_id="1002", customer="Ravi", order_date="2025-01-12", amount="99.5")
     ]
 
 

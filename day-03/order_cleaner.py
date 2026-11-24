@@ -1,4 +1,5 @@
 import csv
+import json
 import sys
 from datetime import datetime
 
@@ -52,6 +53,15 @@ def read_orders(path):
         return list(csv.DictReader(file))
 
 
+def read_orders_json(path):
+    with open(path) as file:
+        return [as_strings(order) for order in json.load(file)]
+
+
+def as_strings(order):
+    return {field: "" if value is None else str(value) for field, value in order.items()}
+
+
 def write_orders(orders, path):
     with open(path, "w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=ORDER_FIELDS, lineterminator="\n")
@@ -60,7 +70,8 @@ def write_orders(orders, path):
 
 
 def clean_file(input_path, output_path):
-    write_orders(clean_orders(read_orders(input_path)), output_path)
+    read = read_orders_json if str(input_path).endswith(".json") else read_orders
+    write_orders(clean_orders(read(input_path)), output_path)
 
 
 if __name__ == "__main__":
