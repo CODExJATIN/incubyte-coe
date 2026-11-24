@@ -1,0 +1,27 @@
+[
+  {
+    "order_id": "1001",
+    "customer": {"name": "Asha", "email": "asha@example.com"},
+    "items": [{"sku": "A1", "qty": 2}, {"sku": "A2", "qty": 1}]
+  },
+  {
+    "order_id": "1002",
+    "customer": {"name": "Ravi"},
+    "items": [{"sku": "B7", "qty": 1}]
+  },
+  {
+    "order_id": "1003",
+    "customer": {"name": "Meera", "email": "meera@example.com"},
+    "channel": "mobile",
+    "items": [{"sku": "C3", "qty": 4, "gift_wrap": true}]
+  },
+  {
+    "order_id": "1004",
+    "customer": {"name": "Zoya", "email": "zoya@example.com"},
+    "items": []
+  },
+  {
+    "order_id": "1005",
+    "customer": {"name": "Kabir", "email": "kabir@example.com"}
+  }
+]
