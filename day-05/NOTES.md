@@ -40,6 +40,10 @@ Azure SQL Database is a managed SQL Server. You create a **SQL server** (the log
 
 Where my files and tables live:
 
+![Azure diagram](azure-diagram.png)
+
+Same thing as a Mermaid diagram:
+
 ```mermaid
 flowchart LR
     local["My laptop<br/>Sample.csv"]
