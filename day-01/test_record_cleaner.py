@@ -57,3 +57,21 @@ def test_normalises_signup_date_to_iso(raw_date, expected):
 def test_rejects_an_unparseable_date():
     with pytest.raises(ValueError, match="signup_date"):
         clean_record(a_record(signup_date="next Tuesday"))
+
+
+def test_rejects_a_record_with_no_signup_date_key():
+    raw = a_record()
+    del raw["signup_date"]
+
+    with pytest.raises(ValueError, match="signup_date"):
+        clean_record(raw)
+
+
+def test_rejects_a_null_signup_date():
+    with pytest.raises(ValueError, match="signup_date"):
+        clean_record(a_record(signup_date=None))
+
+
+def test_rejects_a_signup_date_that_is_not_text():
+    with pytest.raises(ValueError, match="signup_date"):
+        clean_record(a_record(signup_date=20250309))

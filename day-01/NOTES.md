@@ -6,7 +6,7 @@ I wrote the record cleaner myself first, then asked Claude Code to do the same t
 
 Both handle the basics the same way: trimming fields, rejecting a missing or blank id, and converting the dates to ISO.
 
-But Claude's version handled some cases mine doesn't. If the record has no `signup_date` key, or the date is `None` or a number, my code just crashes with a KeyError/TypeError instead of rejecting the record properly. All my tests used nicely shaped records with strings, so I never thought about the wrong shape of data, only wrong values.
+But Claude's version handled some cases mine doesn't. If the record has no `signup_date` key, or the date is `None` or a number, my code just crashes with a KeyError/TypeError instead of rejecting the record properly. All my tests used nicely shaped records with strings, so I never thought about the wrong shape of data, only wrong values. Fixed it later test-first, now all three are rejected with a ValueError.
 
 What I didn't take from it: it added extra date formats and an extra parameter nobody asked for, and it was written in one go, not test by test.
 
